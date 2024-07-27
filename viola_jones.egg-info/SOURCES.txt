@@ -1,0 +1,8 @@
+README.rst
+setup.cfg
+setup.py
+viola_jones.egg-info/PKG-INFO
+viola_jones.egg-info/SOURCES.txt
+viola_jones.egg-info/dependency_links.txt
+viola_jones.egg-info/requires.txt
+viola_jones.egg-info/top_level.txt
