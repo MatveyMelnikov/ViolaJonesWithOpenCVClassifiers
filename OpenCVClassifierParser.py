@@ -3,8 +3,12 @@ from Rectangle import Rectangle
 from HaarLikeFeature import HaarLikeFeature
 from Stage import Stage
 
+
 class OpenCVClassifierParser:
     def __init__(self, path):
+        self.features = None
+        self.stages = None
+        self.root = None
         self.classifiers_file = ET.parse(path)
 
     def parse(self):
@@ -43,15 +47,16 @@ class OpenCVClassifierParser:
         rects = self.features[int(internal_nodes[2])].find('rects')
 
         for rect in rects:
+            # x1, y1, delta_x, delta_y, weight
             rect_parameters = rect.text[:-1].split()
             top_left = (int(rect_parameters[0]), int(rect_parameters[1]))
 
             rectangles.append(
                 Rectangle(
                     top_left,
-                    (top_left[0] + int(rect_parameters[2]), top_left[1] + int(rect_parameters[3])),
+                    (top_left[0] + int(rect_parameters[2]),
+                     top_left[1] + int(rect_parameters[3])),
                     float(rect_parameters[4])
-                    # 1 if int(rect_parameters[4]) > 0 else - 1
                 )
             )
 
