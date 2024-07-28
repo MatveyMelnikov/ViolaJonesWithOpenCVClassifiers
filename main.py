@@ -9,7 +9,7 @@ def main():
     neg_testing_path = 'training_data/nonfaces/test'
 
     images = load_images(pos_testing_path)
-    face_detector = FaceDetector("data/haarcascade_frontalface_default.xml")
+    face_detector = FaceDetector("classifiers/haarcascade_frontalface_default.xml")
 
     for image_index in range(0, len(images)):
         print(f"Image: {image_index}")

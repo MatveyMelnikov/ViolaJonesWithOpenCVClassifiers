@@ -15,4 +15,4 @@ def grey_scale_and_size(path):
             ind += 1
 
 
-grey_scale_and_size('dataset_faces')
+grey_scale_and_size('dataset_nonfaces')

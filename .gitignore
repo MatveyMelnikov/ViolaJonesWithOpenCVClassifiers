@@ -1,0 +1,7 @@
+.idea/
+__pycache__/
+build.
+*.egg-info/
+*.egg
+dataset_faces/
+dataset_nonfaces/
