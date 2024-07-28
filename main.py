@@ -5,12 +5,17 @@ import xml.etree.ElementTree as ET
 from OpenCVClassifierParser import OpenCVClassifierParser
 from FaceDetector import FaceDetector
 from Utils import load_images
+import numpy as np
+import IntegralImage as ii
+
 
 def main():
     pos_training_path = 'training_data/faces'
     neg_training_path = 'training_data/nonfaces'
     pos_testing_path = 'training_data/faces/test'
     neg_testing_path = 'training_data/nonfaces/test'
+
+    # calculate_ii()
 
     # stages = [
     #     Stage(
@@ -84,7 +89,19 @@ def main():
 
     for image_index in range(0, len(images)):
         print(f"Image: {image_index}")
-        face_detector.calculate_prediction(images[image_index])
+        faces = face_detector.detect(images[image_index], 2.0, 1.25, 0.1, 3)
+        for face in faces:
+            print(f"Detect - x: {face[0]}, y: {face[1]}, size: {face[2]}")
+
+
+def calculate_ii():
+    array = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+
+    integral_image = ii.to_integral_image(array)
+    integralimage_of_squares = ii.to_integral_image_of_squares(array)
+
+    a = 3
+    a += 4
 
 
 if __name__ == '__main__':

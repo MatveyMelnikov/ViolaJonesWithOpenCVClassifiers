@@ -5,10 +5,10 @@ class Stage:
         self.classifiers = classifiers
         self.threshold = threshold
 
-    def calculate_prediction(self, int_img, offset, scale):
+    def calculate_prediction(self, integral_image, integral_image_squares, offset, scale):
         score = 0
 
         for classifier in self.classifiers:
-            score += classifier.get_vote(int_img, offset, scale)
+            score += classifier.get_vote(integral_image, integral_image_squares, offset, scale)
 
         return True if score > self.threshold else False

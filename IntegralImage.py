@@ -16,34 +16,55 @@ Original    Integral
 
 
 def to_integral_image(img_arr):
-    # an index of -1 refers to the last row/column
-    # since row_sum is calculated starting from (0,0),
-    # rowSum(x, -1) == 0 holds for all x
-    row_sum = np.zeros(img_arr.shape)
-    # we need an additional column and row
-    integral_image_arr = np.zeros((img_arr.shape[0] + 1, img_arr.shape[1] + 1))
+    # row_sum = np.zeros(img_arr.shape)
+    #
+    # integral_image_arr = np.zeros((img_arr.shape[0] + 1, img_arr.shape[1] + 1))
+    # for x in range(img_arr.shape[1]):
+    #     for y in range(img_arr.shape[0]):
+    #         row_sum[y, x] = row_sum[y - 1, x] + img_arr[y, x]
+    #         integral_image_arr[y+1, x+1] = integral_image_arr[y+1, x] + row_sum[y, x]
+    # return integral_image_arr
+
+    integral_image_arr = np.zeros((img_arr.shape[0], img_arr.shape[1]))
     for x in range(img_arr.shape[1]):
+        row_sum = 0
+
         for y in range(img_arr.shape[0]):
-            row_sum[y, x] = row_sum[y-1, x] + img_arr[y, x]
-            integral_image_arr[y+1, x+1] = integral_image_arr[y+1, x-1+1] + row_sum[y, x]
+            value = int(img_arr[y, x])
+
+            integral_image_arr[y, x] = \
+                (integral_image_arr[y, x - 1] if x > 0 else 0) + row_sum + value
+
+            row_sum += value
+
     return integral_image_arr
 
 
 def to_integral_image_of_squares(img_arr):
-    # an index of -1 refers to the last row/column
-    # since row_sum is calculated starting from (0,0),
-    # rowSum(x, -1) == 0 holds for all x
+    # row_sum = np.zeros(img_arr.shape)
+    #
+    # integral_image_arr = np.zeros((img_arr.shape[0] + 1, img_arr.shape[1] + 1))
+    # for x in range(img_arr.shape[1]):
+    #     for y in range(img_arr.shape[0]):
+    #         row_sum[y, x] = row_sum[y - 1, x] + pow(img_arr[y, x], 2)
+    #         integral_image_arr[y + 1, x + 1] = \
+    #             integral_image_arr[y + 1, x - 1 + 1] + row_sum[y, x]
+    # return integral_image_arr
 
-    #np.power(img_arr, 2)
-
-    row_sum = np.zeros(img_arr.shape)
-    # we need an additional column and row
-    integral_image_arr = np.zeros((img_arr.shape[0] + 1, img_arr.shape[1] + 1))
+    integral_image_of_squares = np.zeros((img_arr.shape[0], img_arr.shape[1]))
     for x in range(img_arr.shape[1]):
+        row_sum = 0
+
         for y in range(img_arr.shape[0]):
-            row_sum[y, x] = row_sum[y-1, x] + pow(img_arr[y, x], 2)
-            integral_image_arr[y+1, x+1] = integral_image_arr[y+1, x-1+1] + row_sum[y, x]
-    return integral_image_arr
+            value_square = pow(img_arr[y, x], 2)
+
+            integral_image_of_squares[y, x] = \
+                (integral_image_of_squares[y, x - 1] if x > 0 else 0) + \
+                row_sum + value_square
+
+            row_sum += value_square
+
+    return integral_image_of_squares
 
 
 def sum_region(integral_img_arr, top_left, bottom_right):
