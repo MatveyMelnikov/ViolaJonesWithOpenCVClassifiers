@@ -2,6 +2,7 @@ from OpenCVClassifierParser import OpenCVClassifierParser
 import IntegralImage as IntegralImage
 from Area import Area
 from Utils import merge
+import numpy as np
 
 
 class FaceDetector:
@@ -18,15 +19,13 @@ class FaceDetector:
             min_neighbors
     ):
         integral_image = IntegralImage.to_integral_image(image)
+        integral_image_of_squares = IntegralImage.to_integral_image_of_squares(image)
         found_faces = []  # Areas
 
         max_scale = min(image.shape[0] / 24.0, image.shape[1] / 24.0)
 
-        for scale in \
-                map(
-                    lambda n: n / 10.0,
-                    range(int(base_scale * 10), int(max_scale * 10), int(scale_increment * 10))
-                ):
+        scale = base_scale
+        while scale < max_scale:
             step = int(scale * 24 * position_increment)
             size = int(scale * 24)
 
@@ -36,12 +35,14 @@ class FaceDetector:
 
                     for stage in self.stages:
                         if not stage.calculate_prediction(
-                                integral_image, (x, y), scale
+                                integral_image, integral_image_of_squares, (x, y), scale
                         ):
                             result = False
                             break
 
                     if result:
                         found_faces.append(Area(x, y, size))
+
+            scale *= scale_increment
 
         return merge(found_faces, min_neighbors)

@@ -8,11 +8,11 @@ def grey_scale_and_size(path):
     for _file in os.listdir(path):
         if _file.endswith('.jpg'):
             img = Image.open((os.path.join(path, _file))).convert('L')
-            img = img.resize((600, 600), Image.Resampling.LANCZOS)
+            img = img.resize((512, 512), Image.Resampling.LANCZOS)
             img = ImageEnhance.Contrast(img).enhance(2)
             img.save(path + '/output/' + ind.__str__() + '.jpg')
             img.close()
             ind += 1
 
 
-grey_scale_and_size('dataset_nonfaces')
+grey_scale_and_size('dataset_faces')

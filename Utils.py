@@ -1,6 +1,5 @@
 import numpy as np
 from PIL import Image
-from functools import partial
 from Area import Area
 import os
 
@@ -9,16 +8,22 @@ def load_images(path):
     images = []
     for _file in os.listdir(path):
         if _file.endswith('.jpg'):
-            img_arr = np.array(Image.open((os.path.join(path, _file))), dtype=np.uint64)
-            images.append(img_arr)
+            img_arr = np.asarray(Image.open((os.path.join(path, _file))), dtype=np.uint64)
+
+            # Convert RGB to greyscale
+            images.append(
+                np.transpose(
+                    np.floor(np.dot(img_arr[..., :3], [0.3, 0.59, 0.11]))
+                )
+            )
     return images
 
 
 def is_similar(first_area, second_area):
     delta = first_area.size * 0.2
 
-    delta_x = abs(first_area.x - second_area.y)
-    delta_y = abs(first_area.x - second_area.y)
+    delta_x = abs(first_area.x - second_area.x)
+    delta_y = abs(first_area.y - second_area.y)
     delta_size = abs(first_area.size - second_area.size)
 
     if delta_x <= delta and delta_y <= delta and delta_size <= delta:
@@ -38,9 +43,9 @@ def combine_neighbours(neighbours):
         )
 
     result.set(
-        result.x / len(neighbours),
-        result.y / len(neighbours),
-        result.size / len(neighbours)
+        int(result.x / len(neighbours)),
+        int(result.y / len(neighbours)),
+        int(result.size / len(neighbours))
     )
 
     return result
@@ -64,3 +69,4 @@ def merge(areas, min_neighbors):
             result.append(combine_neighbours(neighbours))
 
     return result
+
