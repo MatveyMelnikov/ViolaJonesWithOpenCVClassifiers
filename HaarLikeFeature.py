@@ -27,7 +27,7 @@ class HaarLikeFeature:
         return score
 
     def get_vote(self, integral_image, integral_image_of_squares, offset, scale):
-        score = self.get_score(integral_image, integral_image_of_squares, offset, scale)
+        score = self.get_score(integral_image, offset, scale)
         amendment = self.calculate_an_amendment(
             integral_image, integral_image_of_squares, offset, scale
         )
