@@ -29,8 +29,10 @@ class FaceDetector:
             step = int(scale * 24 * position_increment)
             size = int(scale * 24)
 
-            for x in range(0, image.shape[0] - size, step):  # We do not consider the right edge
-                for y in range(0, image.shape[1] - size, step):  # We do not consider the bottom edge
+            # We do not consider the right edge
+            for x in range(0, image.shape[0] - size, step):
+                # We do not consider the bottom edge
+                for y in range(0, image.shape[1] - size, step):
                     result = True
 
                     for stage in self.stages:
